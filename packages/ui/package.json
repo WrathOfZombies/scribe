@@ -5,7 +5,8 @@
   "exports": {
     "./button": "./src/button.tsx",
     "./card": "./src/card.tsx",
-    "./code": "./src/code.tsx"
+    "./code": "./src/code.tsx",
+    "./hello": "./src/hello.tsx"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",
@@ -22,5 +23,10 @@
     "eslint": "^8.56.0",
     "react": "^18.2.0",
     "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.11.3",
+    "@emotion/styled": "^11.11.0",
+    "framer-motion": "^10.18.0"
   }
 }

@@ -4,5 +4,10 @@
   "extends": "./base.json",
   "compilerOptions": {
     "jsx": "react-jsx",
+    "plugins": [
+      {
+        "name": "@styled/typescript-styled-plugin"
+      }
+    ]
   }
 }

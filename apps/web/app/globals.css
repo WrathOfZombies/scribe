@@ -20,6 +20,12 @@
     #a853ba 180deg,
     #e92a67 360deg
   );
+
+  --white: #fafafa;
+  --purple: #9900ff;
+
+  --background: var(--purple);
+  --accent: var(--white);
 }
 
 * {
@@ -32,9 +38,11 @@ html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
+  height: 100%;
 }
 
 body {
+  min-height: 100vh;
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
       to bottom,
@@ -42,9 +50,5 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
+  height: 100%;
 }

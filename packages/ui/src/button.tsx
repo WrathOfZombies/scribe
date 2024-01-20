@@ -1,5 +1,5 @@
 "use client";
-
+import { motion } from "framer-motion";
 import { ReactNode } from "react";
 
 interface ButtonProps {
@@ -10,11 +10,13 @@ interface ButtonProps {
 
 export const Button = ({ children, className, appName }: ButtonProps) => {
   return (
-    <button
+    <motion.button
+      whileHover={{ scale: 1.1 }}
+      whileTap={{ scale: 0.9 }}
       className={className}
       onClick={() => alert(`Hello from your ${appName} app!`)}
     >
       {children}
-    </button>
+    </motion.button>
   );
 };
