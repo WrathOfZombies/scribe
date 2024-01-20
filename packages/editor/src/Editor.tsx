@@ -10,6 +10,8 @@ import { MarkdownShortcutPlugin } from "@lexical/react/LexicalMarkdownShortcutPl
 import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 
+import emotionStyled from "@emotion/styled";
+import { motion } from "framer-motion";
 import editorConfig from "./editorConfig";
 import onChange from "./onChange";
 import {
@@ -21,10 +23,24 @@ import EmoticonPlugin from "./plugins/EmoticonPlugin";
 import MyCustomAutoFocusPlugin from "./plugins/MyCustomAutoFocusPlugin";
 import TreeViewPlugin from "./plugins/TreeViewPlugin";
 
+const EditorContainer = emotionStyled(motion.div)`
+  background: white;
+  border-radius: 2px;
+  color: #000;
+  position: relative;
+  line-height: 20px;
+  font-weight: 400;
+  text-align: left;
+  height: 100%;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  grid-template-columns: 1fr;
+`;
+
 export default function Editor() {
   return (
     <LexicalComposer initialConfig={editorConfig}>
-      <div className="editor-container">
+      <EditorContainer>
         <RichTextPlugin
           contentEditable={<ContentEditable className="editor-input" />}
           placeholder={<Placeholder />}
@@ -44,7 +60,7 @@ export default function Editor() {
         <LinkPlugin />
         <AutoLinkPlugin />
         <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
-      </div>
+      </EditorContainer>
     </LexicalComposer>
   );
 }
