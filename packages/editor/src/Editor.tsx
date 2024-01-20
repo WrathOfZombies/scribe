@@ -1,7 +1,6 @@
 import { TRANSFORMERS } from "@lexical/markdown";
 import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
-import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import LexicalErrorBoundary from "@lexical/react/LexicalErrorBoundary";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import { LinkPlugin } from "@lexical/react/LexicalLinkPlugin";
@@ -12,6 +11,8 @@ import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 
 import emotionStyled from "@emotion/styled";
 import { motion } from "framer-motion";
+import { ContentEditableOuter } from "./components/contentEditable";
+import { Placeholder } from "./components/placeholder";
 import editorConfig from "./editorConfig";
 import onChange from "./onChange";
 import {
@@ -42,7 +43,7 @@ export default function Editor() {
     <LexicalComposer initialConfig={editorConfig}>
       <EditorContainer>
         <RichTextPlugin
-          contentEditable={<ContentEditable className="editor-input" />}
+          contentEditable={<ContentEditableOuter />}
           placeholder={<Placeholder />}
           ErrorBoundary={LexicalErrorBoundary}
         />
@@ -63,8 +64,4 @@ export default function Editor() {
       </EditorContainer>
     </LexicalComposer>
   );
-}
-
-function Placeholder() {
-  return <div className="editor-placeholder">Enter some plain text...</div>;
 }
