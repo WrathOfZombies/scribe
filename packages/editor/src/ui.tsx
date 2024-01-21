@@ -99,6 +99,7 @@ const Full = styled(motion.div)`
     overflow: hidden;
     line-height: 14px;
     width: 100%;
+    overflow: auto;
   }
 
   pre::-webkit-scrollbar {
@@ -171,6 +172,43 @@ const Full = styled(motion.div)`
   .emoji-inner::moz-selection {
     color: transparent;
     background-color: rgba(150, 150, 150, 0.4);
+  }
+
+  .draggable-block-menu {
+    border-radius: 4px;
+    padding: 2px 1px;
+    cursor: grab;
+    opacity: 0;
+    position: absolute;
+    left: 0;
+    top: 0;
+    will-change: transform;
+  }
+
+  .draggable-block-menu .icon {
+    width: 16px;
+    height: 16px;
+    opacity: 0.3;
+    background-image: url(../../images/icons/draggable-block-menu.svg);
+  }
+
+  .draggable-block-menu:active {
+    cursor: grabbing;
+  }
+
+  .draggable-block-menu:hover {
+    background-color: #efefef;
+  }
+
+  .draggable-block-target-line {
+    pointer-events: none;
+    background: deepskyblue;
+    height: 4px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    will-change: transform;
   }
 `;
 

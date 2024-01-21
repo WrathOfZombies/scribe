@@ -3,7 +3,9 @@ import { AutoLinkNode, LinkNode } from "@lexical/link";
 import { ListItemNode, ListNode } from "@lexical/list";
 import { HeadingNode, QuoteNode } from "@lexical/rich-text";
 import { TableCellNode, TableNode, TableRowNode } from "@lexical/table";
+import { AutocompleteNode } from "./nodes/AutocompleteNode";
 import { EmojiNode } from "./nodes/EmojiNode";
+import { MentionNode } from "./nodes/MentionNode";
 import ExampleTheme from "./themes/ExampleTheme";
 
 const editorConfig = {
@@ -28,6 +30,8 @@ const editorConfig = {
     TableRowNode,
     AutoLinkNode,
     LinkNode,
+    AutocompleteNode,
+    MentionNode,
   ],
 };
 
