@@ -27,7 +27,7 @@ export const Snake = () => {
   const game = Game.create(board);
 
   game.useLoop();
-  const tick = game.useTicker(30);
+  const tick = game.useTicker(10);
 
   return (
     <Layout kind="column">
@@ -37,6 +37,9 @@ export const Snake = () => {
         </Counter>
         <Counter>
           Tick: <span>{tick}</span>
+        </Counter>
+        <Counter>
+          Score: <span>{game.score}</span>
         </Counter>
       </Layout>
       {board.render()}

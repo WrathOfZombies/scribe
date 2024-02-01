@@ -5,6 +5,7 @@ export type Position = {
   left(steps?: number): void;
   up(steps?: number): void;
   down(steps?: number): void;
+  is(other: Position): boolean;
 };
 
 export const withBounds = (width: number, height: number) => {
@@ -48,6 +49,10 @@ export const withBounds = (width: number, height: number) => {
     down(steps = 1) {
       this.y += steps;
       this.clamp();
+    }
+
+    is(other: Position) {
+      return this.x === other.x && this.y === other.y;
     }
   }
 

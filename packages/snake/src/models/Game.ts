@@ -68,6 +68,8 @@ class Snake {
 }
 
 export class Game {
+  score: number;
+
   static create(board: Board) {
     const [game] = useState(() => {
       const game = new Game(board);
@@ -89,18 +91,30 @@ export class Game {
     this.food = Food.spawn(board.newPosition().random());
     this.frame = 0;
     this.state = "gameover";
+    this.score = 0;
   }
 
   newGame() {
     this.frame = 0;
     this.board.clear();
     this.snake = Snake.spawn(this.board.newPosition().random());
-    this.food = Food.spawn(this.board.newPosition().random());
     this.state = "playing";
+    this.spawnFood();
   }
 
   stopGame() {
     this.state = "gameover";
+  }
+
+  get didSnakeEatFood() {
+    return this.snake.position.is(this.food.position);
+  }
+
+  spawnFood() {
+    this.food = Food.spawn(this.board.newPosition().random());
+    if (this.didSnakeEatFood) {
+      this.spawnFood();
+    }
   }
 
   useLoop() {
@@ -132,6 +146,10 @@ export class Game {
     useEffect(() => {
       const interval = setInterval(() => {
         this.snake.move();
+        if (this.didSnakeEatFood) {
+          this.food = Food.spawn(this.board.newPosition().random());
+          this.score++;
+        }
         setTick((tick) => tick + 1);
       }, timer);
       return () => clearInterval(interval);
