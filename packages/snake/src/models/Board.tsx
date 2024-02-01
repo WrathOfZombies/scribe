@@ -3,8 +3,11 @@ import { useMemo } from "react";
 import { Position, withBounds } from "./Position";
 
 const Cell = styled.div`
-  background-color: ${({ color }: { color?: string }) => color || "#fff"};
+  background-color: ${({ color }: { color?: string; opacity?: string }) =>
+    color || "#fff"};
   border: 1px solid #000;
+  opacity: ${({ opacity }: { color?: string; opacity?: string }) =>
+    opacity || "1"};
 `;
 
 const Grid = styled.div`
@@ -42,9 +45,14 @@ export class Board {
     return <Grid>{this.cells}</Grid>;
   }
 
-  updateSnake(position: Position) {
-    const index = position.y * this.width + position.x;
-    this.cells[index] = <Cell key={index} color="green" />;
+  updateSnake(positions: Position[]) {
+    this.clear();
+    for (const [i, position] of positions.entries()) {
+      const index = position.y * this.width + position.x;
+      this.cells[index] = (
+        <Cell key={index} color="green" opacity={`${100 / (i + 1)}`} />
+      );
+    }
   }
 
   updateFood(position: Position) {

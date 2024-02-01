@@ -1,10 +1,11 @@
 export type Position = {
+  clone(): Position;
   x: number;
   y: number;
-  right(steps?: number): void;
-  left(steps?: number): void;
-  up(steps?: number): void;
-  down(steps?: number): void;
+  right(steps?: number): Position;
+  left(steps?: number): Position;
+  up(steps?: number): Position;
+  down(steps?: number): Position;
   is(other: Position): boolean;
 };
 
@@ -12,6 +13,10 @@ export const withBounds = (width: number, height: number) => {
   class Position {
     x: number;
     y: number;
+
+    clone() {
+      return new Position(this.x, this.y);
+    }
 
     clamp() {
       if (this.x < 0) this.x = width - this.x;
@@ -34,21 +39,25 @@ export const withBounds = (width: number, height: number) => {
     right(steps = 1) {
       this.x += steps;
       this.clamp();
+      return this;
     }
 
     left(steps = 1) {
       this.x -= steps;
       this.clamp();
+      return this;
     }
 
     up(steps = 1) {
       this.y -= steps;
       this.clamp();
+      return this;
     }
 
     down(steps = 1) {
       this.y += steps;
       this.clamp();
+      return this;
     }
 
     is(other: Position) {

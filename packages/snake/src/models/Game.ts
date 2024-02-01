@@ -1,6 +1,11 @@
 import { KeyboardEvent, useEffect, useState } from "react";
 import { Board } from "./Board";
+import { Body } from "./Body";
 import { Position } from "./Position";
+
+function isNotNull<T>(value: T | null): value is T {
+  return value !== null;
+}
 
 class Food {
   position: Position;
@@ -15,34 +20,45 @@ class Food {
 }
 
 class Snake {
-  position: Position;
   nextDirection: "up" | "down" | "left" | "right";
 
-  static spawn(position: Position) {
-    return new Snake(position);
+  static spawn(position: Position, length: number) {
+    return new Snake(position, length);
   }
 
-  constructor(position: Position) {
-    this.position = position;
+  body: Body;
+
+  constructor(
+    position: Position,
+    public length: number
+  ) {
     this.nextDirection = "right";
+    this.body = new Body(position, length);
     this.listenToKeydown();
   }
 
+  get positions(): Position[] {
+    return Array.from(this.body).filter(isNotNull);
+  }
+
   move() {
+    const position = this.body.head.position.clone();
     switch (this.nextDirection) {
       case "up":
-        this.position.up();
+        position.up();
         break;
       case "down":
-        this.position.down();
+        position.down();
         break;
       case "left":
-        this.position.left();
+        position.left();
         break;
       case "right":
-        this.position.right();
+        position.right();
         break;
     }
+    this.body.grow(position);
+    this.body.shrink();
   }
 
   listenToKeydown() {
@@ -62,6 +78,7 @@ class Snake {
           break;
       }
     };
+
     window.addEventListener("keydown", handler, { passive: true });
     return () => window.removeEventListener("keydown", handler);
   }
@@ -87,7 +104,7 @@ export class Game {
 
   constructor(board: Board) {
     this.board = board;
-    this.snake = Snake.spawn(board.newPosition().random());
+    this.snake = Snake.spawn(board.newPosition().random(), 5);
     this.food = Food.spawn(board.newPosition().random());
     this.frame = 0;
     this.state = "gameover";
@@ -97,7 +114,7 @@ export class Game {
   newGame() {
     this.frame = 0;
     this.board.clear();
-    this.snake = Snake.spawn(this.board.newPosition().random());
+    this.snake = Snake.spawn(this.board.newPosition().random(), 5);
     this.state = "playing";
     this.spawnFood();
   }
@@ -107,7 +124,7 @@ export class Game {
   }
 
   get didSnakeEatFood() {
-    return this.snake.position.is(this.food.position);
+    return this.snake.body.head.position.is(this.food.position);
   }
 
   spawnFood() {
@@ -128,7 +145,7 @@ export class Game {
         }
 
         this.board.updateFood(this.food.position);
-        this.board.updateSnake(this.snake.position);
+        this.board.updateSnake(this.snake.positions);
 
         return requestAnimationFrame(work);
       };
