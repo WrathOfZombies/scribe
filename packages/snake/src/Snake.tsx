@@ -27,7 +27,7 @@ export const Snake = () => {
   const game = Game.create(board);
 
   game.useLoop();
-  const tick = game.useTicker(1);
+  const tick = game.useTicker(30);
 
   return (
     <Layout kind="column">

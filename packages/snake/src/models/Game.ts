@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { KeyboardEvent, useEffect, useState } from "react";
 import { Board } from "./Board";
 import { Position } from "./Position";
 
@@ -16,6 +16,7 @@ class Food {
 
 class Snake {
   position: Position;
+  nextDirection: "up" | "down" | "left" | "right";
 
   static spawn(position: Position) {
     return new Snake(position);
@@ -23,10 +24,46 @@ class Snake {
 
   constructor(position: Position) {
     this.position = position;
+    this.nextDirection = "right";
+    this.listenToKeydown();
   }
 
   move() {
-    this.position.right();
+    switch (this.nextDirection) {
+      case "up":
+        this.position.up();
+        break;
+      case "down":
+        this.position.down();
+        break;
+      case "left":
+        this.position.left();
+        break;
+      case "right":
+        this.position.right();
+        break;
+    }
+  }
+
+  listenToKeydown() {
+    const handler: any = (event: KeyboardEvent) => {
+      switch (event.key) {
+        case "ArrowUp":
+          this.nextDirection = "up";
+          break;
+        case "ArrowDown":
+          this.nextDirection = "down";
+          break;
+        case "ArrowLeft":
+          this.nextDirection = "left";
+          break;
+        case "ArrowRight":
+          this.nextDirection = "right";
+          break;
+      }
+    };
+    window.addEventListener("keydown", handler, { passive: true });
+    return () => window.removeEventListener("keydown", handler);
   }
 }
 
