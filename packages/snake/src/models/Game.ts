@@ -1,42 +1,43 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Board } from "./Board";
 import { Position } from "./Position";
 
 class Food {
   position: Position;
 
-  static spawn() {
-    const x = Math.floor(Math.random() * 20);
-    const y = Math.floor(Math.random() * 20);
-    return new Food(x, y);
+  static spawn(position: Position) {
+    return new Food(position);
   }
 
-  constructor(x: number, y: number) {
-    this.position = new Position(x, y);
+  constructor(position: Position) {
+    this.position = position;
   }
 }
 
 class Snake {
   position: Position;
 
-  static spawn() {
-    const x = Math.floor(Math.random() * 20);
-    const y = Math.floor(Math.random() * 20);
-    return new Food(x, y);
+  static spawn(position: Position) {
+    return new Snake(position);
   }
 
-  constructor(x: number, y: number) {
-    this.position = new Position(x, y);
+  constructor(position: Position) {
+    this.position = position;
+  }
+
+  move() {
+    this.position.right();
   }
 }
 
 export class Game {
   static create(board: Board) {
-    return useMemo(() => {
+    const [game] = useState(() => {
       const game = new Game(board);
       game.newGame();
       return game;
-    }, []);
+    });
+    return game;
   }
 
   snake: Snake;
@@ -47,8 +48,8 @@ export class Game {
 
   constructor(board: Board) {
     this.board = board;
-    this.snake = Snake.spawn();
-    this.food = Food.spawn();
+    this.snake = Snake.spawn(board.newPosition().random());
+    this.food = Food.spawn(board.newPosition().random());
     this.frame = 0;
     this.state = "gameover";
   }
@@ -56,9 +57,13 @@ export class Game {
   newGame() {
     this.frame = 0;
     this.board.clear();
-    this.snake = Snake.spawn();
-    this.food = Food.spawn();
+    this.snake = Snake.spawn(this.board.newPosition().random());
+    this.food = Food.spawn(this.board.newPosition().random());
     this.state = "playing";
+  }
+
+  stopGame() {
+    this.state = "gameover";
   }
 
   useLoop() {
@@ -89,6 +94,7 @@ export class Game {
 
     useEffect(() => {
       const interval = setInterval(() => {
+        this.snake.move();
         setTick((tick) => tick + 1);
       }, timer);
       return () => clearInterval(interval);

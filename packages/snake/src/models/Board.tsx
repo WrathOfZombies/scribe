@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { useMemo } from "react";
-import { Position } from "./Position";
+import { Position, withBounds } from "./Position";
 
 const Cell = styled.div`
   background-color: ${({ color }: { color?: string }) => color || "#fff"};
@@ -32,6 +32,10 @@ export class Board {
     this.cells = Array.from({ length: width * height }, (_, i) => (
       <Cell key={i} />
     ));
+  }
+
+  newPosition() {
+    return withBounds(this.width, this.height);
   }
 
   render() {
