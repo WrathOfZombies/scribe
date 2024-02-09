@@ -24,6 +24,7 @@
     "skills/*"
   ],
   "dependencies": {
+    "@tabler/icons-react": "^2.47.0",
     "lodash": "^4.17.21"
   }
 }

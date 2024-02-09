@@ -1,5 +1,8 @@
+import { rem } from "@mantine/core";
+import { IconBrandMantine } from "@tabler/icons-react";
 import { useCallback } from "react";
 import { Handle, NodeProps, Position } from "reactflow";
+import { Step } from "./step";
 
 const handleStyle = { left: 10 };
 
@@ -8,7 +11,7 @@ export type TextNodeProps = {
   label?: string;
 };
 
-export const TextNode = ({ data, isConnectable }: NodeProps<TextNodeProps>) => {
+export const TextNode = (props: NodeProps<TextNodeProps>) => {
   const onChange = useCallback<React.ChangeEventHandler<HTMLInputElement>>(
     (evt) => {
       console.log(evt.target.value);
@@ -17,29 +20,36 @@ export const TextNode = ({ data, isConnectable }: NodeProps<TextNodeProps>) => {
   );
 
   return (
-    <div className="text-updater-node">
+    <Step<TextNodeProps>
+      icon={
+        <IconBrandMantine
+          style={{ width: rem(24), height: rem(24) }}
+          stroke={1.5}
+          color="var(--mantine-color-blue-filled)"
+        />
+      }
+      label="WhatsApp"
+      title="Send message"
+      {...props}
+    >
       <Handle
         type="target"
         position={Position.Top}
-        isConnectable={isConnectable}
+        isConnectable={props.isConnectable}
       />
-      <div>
-        <label htmlFor="text">{data.label}</label>
-        <input id="text" name="text" onChange={onChange} className="nodrag" />
-      </div>
       <Handle
         type="source"
         position={Position.Bottom}
         id="a"
         style={handleStyle}
-        isConnectable={isConnectable}
+        isConnectable={props.isConnectable}
       />
       <Handle
         type="source"
         position={Position.Bottom}
         id="b"
-        isConnectable={isConnectable}
+        isConnectable={props.isConnectable}
       />
-    </div>
+    </Step>
   );
 };
