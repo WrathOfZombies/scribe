@@ -19,14 +19,13 @@ const selector = (state: RFState) => ({
   onNodesChange: state.onNodesChange,
   onEdgesChange: state.onEdgesChange,
   onConnect: state.onConnect,
+  nodeTypes: state.nodeTypes,
 });
 
 const Editor = () => {
   const [variant, setVariant] = useState(BackgroundVariant.Cross);
-  const { nodes, edges, onNodesChange, onEdgesChange, onConnect } = useStore(
-    selector,
-    shallow
-  );
+  const { nodes, edges, onNodesChange, onEdgesChange, onConnect, nodeTypes } =
+    useStore(selector, shallow);
 
   return (
     <div style={{ width: "100vw", height: "100vh" }}>
@@ -38,6 +37,7 @@ const Editor = () => {
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
+        nodeTypes={nodeTypes}
         fitView
       >
         <Background color="#ccc" variant={variant} />
