@@ -1,60 +1,31 @@
 import EchoCard from "@bots/skills-echo/card";
 import EchoNode from "@bots/skills-echo/node";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import ReactFlow, {
   Background,
   BackgroundVariant,
-  Connection,
   Controls,
-  Edge,
-  EdgeChange,
-  Node,
-  NodeChange,
   Panel,
-  addEdge,
-  applyEdgeChanges,
-  applyNodeChanges,
 } from "reactflow";
+import { shallow } from "zustand/shallow";
 
 import "reactflow/dist/style.css";
 
-const initialNodes: Node[] = [
-  {
-    id: "1",
-    data: { label: "Hello" },
-    position: { x: 0, y: 0 },
-    type: "input",
-  },
-  {
-    id: "2",
-    data: { label: "World" },
-    position: { x: 100, y: 100 },
-  },
-];
+import useStore, { RFState } from "./state";
 
-const initialEdges: Edge[] = [
-  { id: "1-2", source: "1", target: "2", label: "to the", type: "step" },
-];
+const selector = (state: RFState) => ({
+  nodes: state.nodes,
+  edges: state.edges,
+  onNodesChange: state.onNodesChange,
+  onEdgesChange: state.onEdgesChange,
+  onConnect: state.onConnect,
+});
 
 const Editor = () => {
   const [variant, setVariant] = useState(BackgroundVariant.Cross);
-  const [nodes, setNodes] = useState(initialNodes);
-  const [edges, setEdges] = useState(initialEdges);
-
-  const onNodesChange = useCallback(
-    (changes: NodeChange[]) =>
-      setNodes((nds) => applyNodeChanges(changes, nds)),
-    []
-  );
-  const onEdgesChange = useCallback(
-    (changes: EdgeChange[]) =>
-      setEdges((eds) => applyEdgeChanges(changes, eds)),
-    []
-  );
-
-  const onConnect = useCallback(
-    (params: Connection) => setEdges((eds) => addEdge(params, eds)),
-    []
+  const { nodes, edges, onNodesChange, onEdgesChange, onConnect } = useStore(
+    selector,
+    shallow
   );
 
   return (
@@ -63,11 +34,11 @@ const Editor = () => {
       <EchoNode />
       <ReactFlow
         nodes={nodes}
-        onNodesChange={onNodesChange}
         edges={edges}
+        onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
-        fitView
         onConnect={onConnect}
+        fitView
       >
         <Background color="#ccc" variant={variant} />
         <Panel position="top-left">
