@@ -1,0 +1,28 @@
+{
+  "name": "@bots/api",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "clean": "rm -rf ./dist",
+    "build": "yarn clean && tsc --build",
+    "lint": "tslint -c tslint.json 'src/**/*.ts'",
+    "postinstall": "npm run build && node ./deploymentScripts/webConfigPrep.js",
+    "start": "yarn clean && tsc --build && node ./dist/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon --watch ./src -e ts --exec \"npm run start\""
+  },
+  "dependencies": {
+    "botbuilder": "~4.22.1",
+    "replace": "~1.2.0",
+    "restify": "^11.1.0"
+  },
+  "devDependencies": {
+    "@bots/eslint-config": "*",
+    "@bots/typescript-config": "*",
+    "@types/eslint": "^8.56.1",
+    "@types/node": "^20.10.6",
+    "eslint": "^8.56.0",
+    "nodemon": "^3.0.3",
+    "typescript": "^5.3.3"
+  }
+}

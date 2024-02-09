@@ -1,5 +1,3 @@
-import EchoCard from "@bots/skills-echo/card";
-import EchoNode from "@bots/skills-echo/node";
 import { useState } from "react";
 import ReactFlow, {
   Background,
@@ -11,6 +9,7 @@ import { shallow } from "zustand/shallow";
 
 import "reactflow/dist/style.css";
 
+import { PanelWrapper } from "./Panel";
 import useStore, { RFState } from "./state";
 
 const selector = (state: RFState) => ({
@@ -29,8 +28,6 @@ const Editor = () => {
 
   return (
     <div style={{ width: "100vw", height: "100vh" }}>
-      <EchoCard>Hello</EchoCard>
-      <EchoNode />
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -41,18 +38,20 @@ const Editor = () => {
         fitView
       >
         <Background color="#ccc" variant={variant} />
-        <Panel position="top-left">
-          <div>variant:</div>
-          <button onClick={() => setVariant(BackgroundVariant.Dots)}>
-            dots
-          </button>
-          <button onClick={() => setVariant(BackgroundVariant.Lines)}>
-            lines
-          </button>
-          <button onClick={() => setVariant(BackgroundVariant.Cross)}>
-            cross
-          </button>
-        </Panel>
+        <PanelWrapper>
+          <Panel position="top-left">
+            <div>variant:</div>
+            <button onClick={() => setVariant(BackgroundVariant.Dots)}>
+              dots
+            </button>
+            <button onClick={() => setVariant(BackgroundVariant.Lines)}>
+              lines
+            </button>
+            <button onClick={() => setVariant(BackgroundVariant.Cross)}>
+              cross
+            </button>
+          </Panel>
+        </PanelWrapper>
         <Controls />
       </ReactFlow>
     </div>
