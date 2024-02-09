@@ -1,37 +1,34 @@
-import { rem } from "@mantine/core";
+import { Text, rem } from "@mantine/core";
 import { IconBrandMantine } from "@tabler/icons-react";
-import { useCallback } from "react";
 import { Handle, NodeProps, Position } from "reactflow";
-import { Step } from "./step";
+import { Message } from "./Message";
 
 const handleStyle = { left: 10 };
 
-export type TextNodeProps = {
+export type StaticMessageProps = {
   value?: string;
   label?: string;
+  content?: string;
 };
 
-export const TextNode = (props: NodeProps<TextNodeProps>) => {
-  const onChange = useCallback<React.ChangeEventHandler<HTMLInputElement>>(
-    (evt) => {
-      console.log(evt.target.value);
-    },
-    []
-  );
+export const StaticMessage = (props: NodeProps<StaticMessageProps>) => {
+  const { data } = props;
+  const { value, label, content } = data;
 
   return (
-    <Step<TextNodeProps>
+    <Message<StaticMessageProps>
       icon={
         <IconBrandMantine
-          style={{ width: rem(24), height: rem(24) }}
+          style={{ width: rem(32), height: rem(32) }}
           stroke={1.5}
           color="var(--mantine-color-blue-filled)"
         />
       }
-      label="WhatsApp"
-      title="Send message"
+      label={label}
+      title={value ?? ""}
       {...props}
     >
+      <Text>{content}</Text>
       <Handle
         type="target"
         position={Position.Top}
@@ -44,12 +41,6 @@ export const TextNode = (props: NodeProps<TextNodeProps>) => {
         style={handleStyle}
         isConnectable={props.isConnectable}
       />
-      <Handle
-        type="source"
-        position={Position.Bottom}
-        id="b"
-        isConnectable={props.isConnectable}
-      />
-    </Step>
+    </Message>
   );
 };

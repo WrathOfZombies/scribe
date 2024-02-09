@@ -12,15 +12,16 @@
     "dev": "nodemon --watch ./src -e ts --exec \"npm run start\""
   },
   "dependencies": {
-    "botbuilder": "~4.22.1",
-    "replace": "~1.2.0",
+    "botbuilder": "^4.22.1",
+    "replace": "^1.2.2",
     "restify": "^11.1.0"
   },
   "devDependencies": {
     "@bots/eslint-config": "*",
     "@bots/typescript-config": "*",
-    "@types/eslint": "^8.56.1",
-    "@types/node": "^20.10.6",
+    "@types/eslint": "^8.56.2",
+    "@types/node": "^20.11.17",
+    "@types/restify": "^8.5.12",
     "eslint": "^8.56.0",
     "nodemon": "^3.0.3",
     "typescript": "^5.3.3"

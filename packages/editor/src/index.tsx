@@ -1,28 +1,22 @@
-import { useState } from "react";
-import ReactFlow, {
-  Background,
-  BackgroundVariant,
-  Controls,
-  Panel,
-} from "reactflow";
+import ReactFlow, { Background, BackgroundVariant, Controls } from "reactflow";
 import { shallow } from "zustand/shallow";
 
 import "reactflow/dist/style.css";
 
-import { PanelWrapper } from "./Panel";
-import useStore, { RFState } from "./state";
+import { ControlPanel } from "./components/ControlPanel";
+import useStore from "./store";
+import { Store } from "./types";
 
-const selector = (state: RFState) => ({
-  nodes: state.nodes,
-  edges: state.edges,
-  onNodesChange: state.onNodesChange,
-  onEdgesChange: state.onEdgesChange,
-  onConnect: state.onConnect,
-  nodeTypes: state.nodeTypes,
+const selector = (store: Store) => ({
+  nodes: store.nodes,
+  edges: store.edges,
+  onNodesChange: store.onNodesChange,
+  onEdgesChange: store.onEdgesChange,
+  onConnect: store.onConnect,
+  nodeTypes: store.nodeTypes,
 });
 
 const Editor = () => {
-  const [variant, setVariant] = useState(BackgroundVariant.Cross);
   const { nodes, edges, onNodesChange, onEdgesChange, onConnect, nodeTypes } =
     useStore(selector, shallow);
 
@@ -37,21 +31,8 @@ const Editor = () => {
         nodeTypes={nodeTypes}
         fitView
       >
-        <Background color="#ccc" variant={variant} />
-        <PanelWrapper>
-          <Panel position="top-left">
-            <div>variant:</div>
-            <button onClick={() => setVariant(BackgroundVariant.Dots)}>
-              dots
-            </button>
-            <button onClick={() => setVariant(BackgroundVariant.Lines)}>
-              lines
-            </button>
-            <button onClick={() => setVariant(BackgroundVariant.Cross)}>
-              cross
-            </button>
-          </Panel>
-        </PanelWrapper>
+        <Background color="#ccc" variant={BackgroundVariant.Cross} />
+        <ControlPanel />
         <Controls />
       </ReactFlow>
     </div>
