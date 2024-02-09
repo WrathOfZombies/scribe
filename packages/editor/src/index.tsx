@@ -1,3 +1,5 @@
+import EchoCard from "@bots/skills-echo/card";
+import EchoNode from "@bots/skills-echo/node";
 import { useCallback, useState } from "react";
 import ReactFlow, {
   Background,
@@ -57,6 +59,8 @@ const Editor = () => {
 
   return (
     <div style={{ width: "100vw", height: "100vh" }}>
+      <EchoCard>Hello</EchoCard>
+      <EchoNode />
       <ReactFlow
         nodes={nodes}
         onNodesChange={onNodesChange}

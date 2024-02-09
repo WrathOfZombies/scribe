@@ -20,7 +20,8 @@
   "packageManager": "yarn@4.1.0",
   "workspaces": [
     "apps/*",
-    "packages/*"
+    "packages/*",
+    "skills/*"
   ],
   "dependencies": {
     "lodash": "^4.17.21"

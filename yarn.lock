@@ -285,6 +285,7 @@ __metadata:
   resolution: "@bots/editor@workspace:packages/editor"
   dependencies:
     "@bots/eslint-config": "npm:*"
+    "@bots/skills-echo": "npm:*"
     "@bots/typescript-config": "npm:*"
     "@emotion/react": "npm:^11.11.3"
     "@emotion/styled": "npm:^11.11.0"
@@ -313,6 +314,28 @@ __metadata:
     eslint-config-prettier: "npm:^9.1.0"
     eslint-config-turbo: "npm:^1.11.3"
     eslint-plugin-only-warn: "npm:^1.1.0"
+    typescript: "npm:^5.3.3"
+  languageName: unknown
+  linkType: soft
+
+"@bots/skills-echo@npm:*, @bots/skills-echo@workspace:skills/echo":
+  version: 0.0.0-use.local
+  resolution: "@bots/skills-echo@workspace:skills/echo"
+  dependencies:
+    "@bots/eslint-config": "npm:*"
+    "@bots/typescript-config": "npm:*"
+    "@emotion/react": "npm:^11.11.3"
+    "@emotion/styled": "npm:^11.11.0"
+    "@mantine/core": "npm:^7.4.2"
+    "@mantine/hooks": "npm:^7.4.2"
+    "@turbo/gen": "npm:^1.11.3"
+    "@types/eslint": "npm:^8.56.1"
+    "@types/node": "npm:^20.10.6"
+    "@types/react": "npm:^18.2.46"
+    "@types/react-dom": "npm:^18.2.18"
+    eslint: "npm:^8.56.0"
+    framer-motion: "npm:^10.18.0"
+    react: "npm:^18.2.0"
     typescript: "npm:^5.3.3"
   languageName: unknown
   linkType: soft
