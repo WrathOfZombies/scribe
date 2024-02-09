@@ -1,5 +1,5 @@
 {
-  "extends": "@scribe/typescript-config/react-library.json",
+  "extends": "@bots/typescript-config/react-library.json",
   "compilerOptions": {
     "outDir": "dist",
   },

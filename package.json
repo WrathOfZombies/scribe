@@ -1,5 +1,5 @@
 {
-  "name": "scribe",
+  "name": "bots",
   "private": true,
   "scripts": {
     "build": "turbo build",
@@ -8,8 +8,8 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
-    "@scribe/eslint-config": "*",
-    "@scribe/typescript-config": "*",
+    "@bots/eslint-config": "*",
+    "@bots/typescript-config": "*",
     "@types/lodash": "^4",
     "prettier": "^3.1.1",
     "turbo": "latest"
@@ -17,7 +17,7 @@
   "engines": {
     "node": ">=18"
   },
-  "packageManager": "yarn@4.0.2",
+  "packageManager": "yarn@4.1.0",
   "workspaces": [
     "apps/*",
     "packages/*"

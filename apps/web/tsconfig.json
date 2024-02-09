@@ -1,5 +1,5 @@
 {
-  "extends": "@scribe/typescript-config/nextjs.json",
+  "extends": "@bots/typescript-config/nextjs.json",
   "compilerOptions": {
     "plugins": [
       {

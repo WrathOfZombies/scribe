@@ -24,7 +24,7 @@
   --white: #fafafa;
   --purple: #9900ff;
 
-  --background: var(--purple);
+  --background: var(--white);
   --accent: var(--white);
 }
 
