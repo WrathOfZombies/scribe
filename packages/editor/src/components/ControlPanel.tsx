@@ -31,7 +31,17 @@ const selector = (store: Store) => ({
       data: { label: "New Node", value: "New Node", content: "New Content" },
     });
   },
-  onRunClicked: async () => {},
+  onRunClicked: async () => {
+    console.log(store.nodes);
+    const data = store.nodes;
+    await fetch("http://localhost:5100/api/scripts", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ data }, null, 2),
+    });
+  },
 });
 
 export const ControlPanel = ({ children }: PanelWrapperProps) => {
