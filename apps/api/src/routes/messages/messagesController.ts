@@ -1,5 +1,3 @@
-import restify from "restify";
-
 import {
   CloudAdapter,
   ConfigurationBotFrameworkAuthentication,
@@ -7,23 +5,17 @@ import {
   MemoryStorage,
   UserState,
 } from "botbuilder";
-
-import { WelcomeBot } from "./bot";
+import { NextFunction, Request, Response, Router } from "express";
 import { Flow } from "./flow";
+import { WelcomeBot } from "./welcomeBot";
 
-const server = restify.createServer();
-server.use(restify.plugins.bodyParser());
-
-server.listen(process.env.port || process.env.PORT || 3978, () => {
-  console.log(`\n${server.name} listening to ${server.url}`);
-});
+const router = Router();
 
 const botFrameworkAuthentication = new ConfigurationBotFrameworkAuthentication(
   process.env as ConfigurationBotFrameworkAuthenticationOptions
 );
 
 const adapter = new CloudAdapter(botFrameworkAuthentication);
-
 adapter.onTurnError = async (context, error) => {
   console.error(`\n [onTurnError] unhandled error: ${error}`);
 
@@ -42,16 +34,18 @@ adapter.onTurnError = async (context, error) => {
 
 const memoryStorage = new MemoryStorage();
 const userState = new UserState(memoryStorage);
-
 const flow = new Flow();
 const myBot = new WelcomeBot(userState, flow);
 
-server.post("/api/messages", async (req, res) => {
-  await adapter.process(req, res, (context) => myBot.run(context));
-});
+router.post(
+  "/messages",
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      await adapter.process(req, res, (context) => myBot.run(context));
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
-server.post("/api/flow/save", async (req, res) => {
-  const flowNode = req.body;
-  console.log(flowNode);
-  await flow.save(flowNode);
-});
+export default router;
