@@ -1,6 +1,6 @@
 import { Select } from "@mantine/core";
 import React from "react";
-import { NodeProps } from "reactflow";
+import { Handle, NodeProps, Position } from "reactflow";
 import { shallow } from "zustand/shallow";
 import { Column } from "../layout/box";
 import useStore from "../store";
@@ -31,6 +31,11 @@ const Message: React.FC<NodeProps> = (props: NodeProps<MessageProps>) => {
 
   return (
     <MessageWrapper>
+      <Handle
+        type="target"
+        position={Position.Top}
+        isConnectable={props.isConnectable}
+      />
       <Column>
         <Select
           label="Select message type"
@@ -46,6 +51,12 @@ const Message: React.FC<NodeProps> = (props: NodeProps<MessageProps>) => {
         />
         <MessageComponent {...props} data={props.data as never} />
       </Column>
+      <Handle
+        type="source"
+        position={Position.Bottom}
+        id="a"
+        isConnectable={props.isConnectable}
+      />
     </MessageWrapper>
   );
 };

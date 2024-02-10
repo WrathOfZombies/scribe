@@ -8,24 +8,31 @@ const Box = styled(motion.div)``;
 
 type FlexProps = BoxProps & {
   gap?: number;
+  margin?: string;
+  padding?: string;
+  width?: number;
+  height?: number;
 };
+
+const Flex = styled(Box)`
+  display: flex;
+  gap: ${({ gap }: FlexProps) => gap && rem(gap)};
+  margin: ${({ margin }: FlexProps) => margin};
+  padding: ${({ padding }: FlexProps) => padding};
+  width: ${({ width }: FlexProps) => width && rem(width)};
+  height: ${({ height }: FlexProps) => height && rem(height)};
+`;
 
 type RowProps = FlexProps & {};
 
-const Row = styled(Box)`
-  display: flex;
+const Row = styled(Flex)`
   flex-direction: row;
-  align-items: center;
-  gap: ${({ gap }: RowProps) => gap && rem(gap)};
 `;
 
 type ColumnProps = FlexProps & {};
 
-const Column = styled(Box)`
-  display: flex;
+const Column = styled(Flex)`
   flex-direction: column;
-  align-items: start;
-  gap: ${({ gap }: ColumnProps) => gap && rem(gap)};
 `;
 
 export { Box, Column, Row };
