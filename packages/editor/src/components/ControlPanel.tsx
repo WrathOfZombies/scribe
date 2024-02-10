@@ -31,10 +31,11 @@ const selector = (store: Store) => ({
       data: { label: "New Node", value: "New Node", content: "New Content" },
     });
   },
+  onRunClicked: async () => {},
 });
 
 export const ControlPanel = ({ children }: PanelWrapperProps) => {
-  const { onAddNode } = useStore(selector, shallow);
+  const { onAddNode, onRunClicked } = useStore(selector, shallow);
 
   return (
     <Panel position="top-left">
@@ -43,7 +44,7 @@ export const ControlPanel = ({ children }: PanelWrapperProps) => {
           <Button variant="outline" onClick={onAddNode}>
             Add
           </Button>
-          <Button variant="outline">Run</Button>
+          <Button onClick={onRunClicked}>Run</Button>
           {children}
         </Row>
       </PanelWrapper>

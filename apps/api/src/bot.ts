@@ -6,16 +6,19 @@ import {
   TurnContext,
   UserState,
 } from "botbuilder";
+import { Flow } from "./flow";
 
 const WELCOMED_USER = "welcomedUserProperty";
 
 export class WelcomeBot extends ActivityHandler {
   private welcomedUserProperty: StatePropertyAccessor<boolean>;
   private userState: UserState;
+  private flow: Flow;
 
-  constructor(userState: UserState) {
+  constructor(userState: UserState, flow: Flow) {
     super();
     this.welcomedUserProperty = userState.createProperty(WELCOMED_USER);
+    this.flow = flow;
 
     this.userState = userState;
 
@@ -26,15 +29,17 @@ export class WelcomeBot extends ActivityHandler {
       );
 
       if (didBotWelcomedUser === false) {
+        await this.flow.restart();
+        const node = await this.flow.start();
         const userName = context.activity.from.name;
-        await context.sendActivity(
-          "You are seeing th!!!!is message because this was your first message ever sent to this bot."
-        );
-        await context.sendActivity(
-          `It is a good practice to welcome the user and provide personal greeting. For example, welcome ${userName}.`
-        );
-
         await this.welcomedUserProperty.set(context, true);
+        if (!node?.message) {
+          await context.sendActivity(
+            `Welcome to the 'Welcome User' Bot. This bot will introduce you to welcoming and greeting users.`
+          );
+          return;
+        }
+        await context.sendActivity(node.message);
       } else {
         const text = context.activity.text.toLowerCase();
         switch (text) {
@@ -58,22 +63,13 @@ export class WelcomeBot extends ActivityHandler {
     });
 
     this.onMembersAdded(async (context, next) => {
+      await this.flow.restart();
+      const node = await this.flow.start();
       for (const member of context.activity.membersAdded ?? []) {
         if (member.id && context.activity.recipient.id) {
-          await context.sendActivity(
-            "Welcome to the 'Welcome User' Bot. This bot will introduce you to welcoming and greeting users."
-          );
-          await context.sendActivity(
-            `You are seeing this message because the bot received at least one 'ConversationUpdate' ` +
-              "event, indicating you (and possibly others) joined the conversation. If you are using the emulator, " +
-              "pressing the 'Start Over' button to trigger this event again. The specifics of the 'ConversationUpdate' " +
-              "event depends on the channel. You can read more information at https://aka.ms/about-botframework-welcome-user"
-          );
-          await context.sendActivity(
-            "It is a good pattern to use this event to send general greeting to user, explaining what your bot can do. " +
-              "In this example, the bot handles 'hello', 'hi', 'help' and 'intro'. " +
-              "Try it now, type 'hi'"
-          );
+          await this.welcomedUserProperty.set(context, true);
+          console.log(node);
+          await context.sendActivity(node?.message ?? "Empty");
         }
       }
 

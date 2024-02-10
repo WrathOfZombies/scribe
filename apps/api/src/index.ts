@@ -9,6 +9,7 @@ import {
 } from "botbuilder";
 
 import { WelcomeBot } from "./bot";
+import { Flow } from "./flow";
 
 const server = restify.createServer();
 server.use(restify.plugins.bodyParser());
@@ -42,8 +43,15 @@ adapter.onTurnError = async (context, error) => {
 const memoryStorage = new MemoryStorage();
 const userState = new UserState(memoryStorage);
 
-const myBot = new WelcomeBot(userState);
+const flow = new Flow();
+const myBot = new WelcomeBot(userState, flow);
 
 server.post("/api/messages", async (req, res) => {
   await adapter.process(req, res, (context) => myBot.run(context));
+});
+
+server.post("/api/flow/save", async (req, res) => {
+  const flowNode = req.body;
+  console.log(flowNode);
+  await flow.save(flowNode);
 });
