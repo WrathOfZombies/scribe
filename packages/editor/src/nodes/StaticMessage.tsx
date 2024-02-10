@@ -1,34 +1,18 @@
-import { Text, rem } from "@mantine/core";
-import { IconBrandMantine } from "@tabler/icons-react";
+import { Text } from "@mantine/core";
 import { Handle, NodeProps, Position } from "reactflow";
-import { Message } from "./Message";
+import { Column } from "../layout/box";
 
-const handleStyle = { left: 10 };
+export type StaticMessageProps = NodeProps<{
+  message?: string;
+}>;
 
-export type StaticMessageProps = {
-  value?: string;
-  label?: string;
-  content?: string;
-};
-
-export const StaticMessage = (props: NodeProps<StaticMessageProps>) => {
+export const StaticMessage: React.FC<StaticMessageProps> = (props) => {
   const { data } = props;
-  const { value, label, content } = data;
+  const { message } = data;
 
   return (
-    <Message<StaticMessageProps>
-      icon={
-        <IconBrandMantine
-          style={{ width: rem(32), height: rem(32) }}
-          stroke={1.5}
-          color="var(--mantine-color-blue-filled)"
-        />
-      }
-      label={label}
-      title={value ?? ""}
-      {...props}
-    >
-      <Text>{content}</Text>
+    <Column>
+      <Text>{message}</Text>
       <Handle
         type="target"
         position={Position.Top}
@@ -38,9 +22,8 @@ export const StaticMessage = (props: NodeProps<StaticMessageProps>) => {
         type="source"
         position={Position.Bottom}
         id="a"
-        style={handleStyle}
         isConnectable={props.isConnectable}
       />
-    </Message>
+    </Column>
   );
 };

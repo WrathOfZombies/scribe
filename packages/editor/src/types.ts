@@ -17,4 +17,5 @@ export type Store = {
   setNodes: (nodes: Node[]) => void;
   setEdges: (edges: Edge[]) => void;
   nodeTypes: NodeTypes;
+  onChangeNodeType: (id: string, type: string) => void;
 };

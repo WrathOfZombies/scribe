@@ -3,6 +3,7 @@ import { Button, rem } from "@mantine/core";
 import { motion } from "framer-motion";
 import { ReactNode } from "react";
 import { Panel } from "reactflow";
+import { v4 } from "uuid";
 import { shallow } from "zustand/shallow";
 import { Row } from "../layout/box";
 import useStore from "../store";
@@ -24,10 +25,10 @@ export type PanelWrapperProps = {
 const selector = (store: Store) => ({
   onAddNode: () => {
     store.onAddNode({
-      id: Math.random().toString(36).substr(2, 9),
-      type: "staticMessage",
+      id: v4(),
+      type: "message",
       position: { x: 0, y: 0 },
-      data: { value: "New Node", content: "New Content" },
+      data: { label: "New Node", value: "New Node", content: "New Content" },
     });
   },
 });

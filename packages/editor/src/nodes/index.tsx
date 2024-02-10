@@ -1,8 +1,8 @@
 import { NodeTypes } from "reactflow";
-import { StaticMessage } from "./StaticMessage";
+import { Message } from "./Message";
 
 const nodeTypes: NodeTypes = {
-  staticMessage: StaticMessage,
+  message: Message,
 };
 
 export { nodeTypes };

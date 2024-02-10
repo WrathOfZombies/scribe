@@ -47,6 +47,15 @@ const useStore = create<Store>((set, get) => ({
       nodes: [...get().nodes, node],
     });
   },
+  onChangeNodeType: (id: string, type: string) => {
+    const node = get().nodes.find((node) => node.id === id);
+    if (node) {
+      node.data.messageType = type;
+      set({
+        nodes: get().nodes,
+      });
+    }
+  },
 }));
 
 export default useStore;

@@ -1,46 +1,53 @@
+import { Select } from "@mantine/core";
+import React from "react";
 import { NodeProps } from "reactflow";
+import { shallow } from "zustand/shallow";
+import { Column } from "../layout/box";
+import useStore from "../store";
+import { Store } from "../types";
+import { MessageWrapper } from "./MessageWrapper";
+import { StaticMessage } from "./StaticMessage";
 
-import styled from "@emotion/styled";
-import { rem, Text, Title } from "@mantine/core";
-import { motion } from "framer-motion";
-import { ReactNode } from "react";
-import { Column, Row } from "../layout/box";
+const messageTypes = {
+  "Static Message": StaticMessage,
+} as const;
 
-const MessageWrapper = styled(motion.section)`
-  margin: 0;
-  padding: ${rem(16)};
-  border-radius: ${rem(8)};
-  background: var(--background);
-  box-shadow: 0px 0px 10px 0px var(--mantine-color-gray-4);
-`;
+type MessageTypes = typeof messageTypes;
+type MessageType = keyof MessageTypes;
 
-export type MessageProps<TProps> = TProps & {
-  icon?: ReactNode;
-  label?: string;
-  title: string;
-  children?: ReactNode;
+type MessageProps = {
+  messageType: MessageType;
 };
 
-export const Message = <TData, TProps = {}>({
-  icon,
-  label,
-  title,
-  children,
-}: MessageProps<TProps> & NodeProps<TData>) => {
+const selector = (store: Store) => ({
+  onChangeNodeType: store.onChangeNodeType,
+  nodeTypes: Object.keys(messageTypes),
+});
+
+const Message: React.FC<NodeProps> = (props: NodeProps<MessageProps>) => {
+  const { messageType } = props.data;
+  const MessageComponent = messageTypes[messageType] ?? StaticMessage;
+  const { onChangeNodeType, nodeTypes } = useStore(selector, shallow);
+
   return (
     <MessageWrapper>
       <Column>
-        <Row>
-          {icon}
-          <Column>
-            <Text c="gray" size="xs">
-              {label}
-            </Text>
-            <Title size="s">{title}</Title>
-          </Column>
-        </Row>
-        {children}
+        <Select
+          label="Select message type"
+          placeholder="Message"
+          data={nodeTypes}
+          comboboxProps={{ shadow: "md" }}
+          onSelect={(event) => {
+            if (!("value" in event.target)) {
+              return;
+            }
+            onChangeNodeType(props.id, event.target.value as string);
+          }}
+        />
+        <MessageComponent {...props} data={props.data as never} />
       </Column>
     </MessageWrapper>
   );
 };
+
+export { Message };
